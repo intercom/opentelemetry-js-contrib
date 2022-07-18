@@ -48,6 +48,7 @@ export interface DocumentLoadInstrumentationConfig
   extends InstrumentationConfig {
   // Custom root span
   rootSpan?: Span;
+  ignoreNetworkEvents?: boolean;
 }
 
 /**
@@ -142,7 +143,9 @@ export class DocumentLoadInstrumentation extends InstrumentationBase<unknown> {
       );
       if (fetchSpan) {
         context.with(trace.setSpan(context.active(), fetchSpan), () => {
-          addSpanNetworkEvents(fetchSpan, entries);
+          if (!this._getConfig().ignoreNetworkEvents) {
+            addSpanNetworkEvents(fetchSpan, entries);
+          }
           this._endSpan(fetchSpan, PTN.RESPONSE_END, entries);
         });
       }
@@ -156,15 +159,17 @@ export class DocumentLoadInstrumentation extends InstrumentationBase<unknown> {
 
     this._addResourcesSpans(rootSpan);
 
-    addSpanNetworkEvent(rootSpan, PTN.FETCH_START, entries);
-    addSpanNetworkEvent(rootSpan, PTN.UNLOAD_EVENT_START, entries);
-    addSpanNetworkEvent(rootSpan, PTN.UNLOAD_EVENT_END, entries);
-    addSpanNetworkEvent(rootSpan, PTN.DOM_INTERACTIVE, entries);
-    addSpanNetworkEvent(rootSpan, PTN.DOM_CONTENT_LOADED_EVENT_START, entries);
-    addSpanNetworkEvent(rootSpan, PTN.DOM_CONTENT_LOADED_EVENT_END, entries);
-    addSpanNetworkEvent(rootSpan, PTN.DOM_COMPLETE, entries);
-    addSpanNetworkEvent(rootSpan, PTN.LOAD_EVENT_START, entries);
-    addSpanNetworkEvent(rootSpan, PTN.LOAD_EVENT_END, entries);
+    if (!this._getConfig().ignoreNetworkEvents) {
+      addSpanNetworkEvent(rootSpan, PTN.FETCH_START, entries);
+      addSpanNetworkEvent(rootSpan, PTN.UNLOAD_EVENT_START, entries);
+      addSpanNetworkEvent(rootSpan, PTN.UNLOAD_EVENT_END, entries);
+      addSpanNetworkEvent(rootSpan, PTN.DOM_INTERACTIVE, entries);
+      addSpanNetworkEvent(rootSpan, PTN.DOM_CONTENT_LOADED_EVENT_START, entries);
+      addSpanNetworkEvent(rootSpan, PTN.DOM_CONTENT_LOADED_EVENT_END, entries);
+      addSpanNetworkEvent(rootSpan, PTN.DOM_COMPLETE, entries);
+      addSpanNetworkEvent(rootSpan, PTN.LOAD_EVENT_START, entries);
+      addSpanNetworkEvent(rootSpan, PTN.LOAD_EVENT_END, entries);
+    }
 
     addSpanPerformancePaintEvents(rootSpan);
   }
@@ -208,7 +213,9 @@ export class DocumentLoadInstrumentation extends InstrumentationBase<unknown> {
     );
     if (span) {
       span.setAttribute(SemanticAttributes.HTTP_URL, resource.name);
-      addSpanNetworkEvents(span, resource);
+      if (!this._getConfig().ignoreNetworkEvents) {
+        addSpanNetworkEvents(span, resource);
+      }
       this._endSpan(span, PTN.RESPONSE_END, resource);
     }
   }
