@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.30.0](https://github.com/open-telemetry/opentelemetry-js-contrib/compare/instrumentation-document-load-v0.28.0...instrumentation-document-load-v0.30.0) (2022-07-18)
+
+
+### Features
+
+* add `rootSpan` config option ([#1092](https://github.com/open-telemetry/opentelemetry-js-contrib/pull/1092))
+
 ## [0.29.0](https://github.com/open-telemetry/opentelemetry-js-contrib/compare/instrumentation-document-load-v0.28.0...instrumentation-document-load-v0.29.0) (2022-06-08)
 
 
