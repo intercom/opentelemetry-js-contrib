@@ -41,7 +41,7 @@
     "@opentelemetry/sdk-trace-node": "^0.25.0",
     "@opentelemetry/sdk-trace-base": "^0.25.0",
     "axios": "^1.8.2",
-    "koa": "^2.13.0"
+    "koa": "^3.0.1"
   },
   "homepage": "https://github.com/open-telemetry/opentelemetry-js-contrib#readme",
   "devDependencies": {
