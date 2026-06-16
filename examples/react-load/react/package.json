@@ -38,7 +38,7 @@
   "dependencies": {
     "@opentelemetry/api": "^1.0.4",
     "@opentelemetry/context-zone": "^0.25.0",
-    "@opentelemetry/core": "^0.25.0",
+    "@opentelemetry/core": "^2.8.0",
     "@opentelemetry/exporter-collector": "^0.25.0",
     "@opentelemetry/plugin-react-load": "^0.23.0",
     "@opentelemetry/sdk-trace-base": "^0.25.0",
